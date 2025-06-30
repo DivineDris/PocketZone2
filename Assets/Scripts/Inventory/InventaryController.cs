@@ -7,11 +7,10 @@ public class InventaryController : MonoBehaviour
 {
     [SerializeField]
     private UI_InventoryPage inventoryUI;
-
     [SerializeField]
     private InventorySO inventoryData;
-
     public List<InventoryItem> initialItems = new List<InventoryItem>();
+
 
 
     private void Start()
@@ -19,6 +18,7 @@ public class InventaryController : MonoBehaviour
         inventoryUI.InitializeInventoryUI(inventoryData.Size);
         inventoryData.Initialize();
         inventoryData.OnInventoryUpdated += UpdateInventoryUI;
+        inventoryUI.OnItemDelete += DeleteItem;
         foreach (InventoryItem item in initialItems)
         {
             if (item.IsEmpty)
@@ -26,7 +26,10 @@ public class InventaryController : MonoBehaviour
             inventoryData.AddItem(item);
         }
     }
-
+    private void DeleteItem(int index)
+    {
+        inventoryData.RemoveItem(index);
+    }
     private void UpdateInventoryUI(Dictionary<int, InventoryItem> inventoryState)
     {
         inventoryUI.ResetAllItems();

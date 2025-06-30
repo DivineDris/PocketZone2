@@ -99,9 +99,7 @@ public class InventorySO : ScriptableObject
             AddItemToFirstFreeSlot(item, newQuantity);
         }
         return quantity;
-
     }
-
     public Dictionary<int, InventoryItem> GetCurrentInventoryState()
     {
         Dictionary<int, InventoryItem> returnValue = new Dictionary<int, InventoryItem>();
@@ -124,17 +122,11 @@ public class InventorySO : ScriptableObject
         OnInventoryUpdated?.Invoke(GetCurrentInventoryState());
     }
 
-    public void RemoveItem(int itemIndex, int amount)
+    public void RemoveItem(int itemIndex)
     {
         if (inventoryItems.Count > itemIndex)
         {
-            if (inventoryItems.Count > itemIndex)
-                return;
-            int reminder = inventoryItems[itemIndex].Quantity - amount;
-            if (reminder <= 0)
-                inventoryItems[itemIndex] = InventoryItem.GetEmptyItem();
-            else
-                inventoryItems[itemIndex] = inventoryItems[itemIndex].ChangeQuantity(reminder);
+            inventoryItems[itemIndex] = InventoryItem.GetEmptyItem();
             InformAboutChange();
         }
     }

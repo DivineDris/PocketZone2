@@ -19,7 +19,8 @@ public class UI_InventoryItem : MonoBehaviour
     private TMP_Text quantityTxt;
     [SerializeField]
     private UnityEngine.UI.Button deleteButton;
-    public event Action<UI_InventoryItem> OnItemTapped, OnDeleteButtonTaped;
+    public event Action<UI_InventoryItem> OnItemTapped;
+    public event Action<UI_InventoryItem> OnDeleteButtonTapped;
 
     private bool empty = true;
 
@@ -62,10 +63,10 @@ public class UI_InventoryItem : MonoBehaviour
             OnItemTapped?.Invoke(this);
     }
 
-    public void OnDeleteButtonClicked(BaseEventData data)
+    public void OnDeleteButtonClicked()
     {
             if (!empty)
-            OnDeleteButtonTaped?.Invoke(this);
+            OnDeleteButtonTapped?.Invoke(this);
     }
 
 }

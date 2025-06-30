@@ -9,10 +9,12 @@ public class UI_InventoryPage : MonoBehaviour
     private UI_InventoryItem itemPrefab;
     [SerializeField]
     private RectTransform contentPanel;
-
     private UI_InventoryItem selectedItem;
+    public event Action<int> OnItemDelete; 
 
     List<UI_InventoryItem> inventoryItemsList = new List<UI_InventoryItem>();
+
+    
 
     public void InitializeInventoryUI(int inventorySize)
     {
@@ -22,6 +24,7 @@ public class UI_InventoryPage : MonoBehaviour
             uiItem.transform.SetParent(contentPanel, false);
             inventoryItemsList.Add(uiItem);
             uiItem.OnItemTapped += HandleItemSelection;
+            uiItem.OnDeleteButtonTapped += HandleItemDeleted;
         }
     }
 
@@ -49,7 +52,9 @@ public class UI_InventoryPage : MonoBehaviour
         {
             return;
         }
-        
+        item.Deselect();
+        item.ResetData();
+        OnItemDelete?.Invoke(index);
     }
 
     public void UpdateData(int itemIndex, Sprite itemImage, int itemQuantity)
